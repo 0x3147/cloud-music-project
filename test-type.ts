@@ -1,4 +1,5 @@
 // 定义函数的调用签名
+// @ts-ignore
 interface IFnCall<IRoot> {
   <TWhy>(fn: (num: IRoot) => TWhy, age: number): TWhy
 }
