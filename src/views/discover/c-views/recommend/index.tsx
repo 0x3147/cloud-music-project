@@ -1,38 +1,11 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useEffect } from 'react'
 import type { FC, ReactNode } from 'react'
-import hyRequest from '@/service'
+import { useAppDispatch } from '@/store'
+import { fetchBannerDataAction } from '@/views/discover/c-views/recommend/store/recommend'
+import TopBanner from '@/views/discover/c-views/recommend/c-cpns/top-banner'
 
 interface Iprops {
   children?: ReactNode
-}
-
-export interface IBannerData {
-  imageUrl: string
-  targetId: number
-  adid: any
-  targetType: number
-  titleColor: string
-  typeTitle: string
-  url: any
-  exclusive: boolean
-  monitorImpress: any
-  monitorClick: any
-  monitorType: any
-  monitorImpressList: any
-  monitorClickList: any
-  monitorBlackList: any
-  extMonitor: any
-  extMonitorInfo: any
-  adSource: any
-  adLocation: any
-  adDispatchJson: any
-  encodeId: string
-  program: any
-  event: any
-  video: any
-  song: any
-  scm: string
-  bannerBizType: string
 }
 
 /**
@@ -41,27 +14,14 @@ export interface IBannerData {
  * @Date 2023-02-11 18:10:55
  */
 const Recommend: FC<Iprops> = () => {
-  const [banners, setBanners] = useState<IBannerData[]>([])
-
+  const dispatch = useAppDispatch()
   useEffect(() => {
-    hyRequest
-      .get({
-        url: '/banner'
-      })
-      .then((res) => {
-        setBanners(res.banners)
-      })
+    dispatch(fetchBannerDataAction())
   }, [])
 
   return (
     <div>
-      {banners.map((item, index) => {
-        return (
-          <div key={index}>
-            <img src={item.imageUrl} />
-          </div>
-        )
-      })}
+      <TopBanner />
     </div>
   )
 }
